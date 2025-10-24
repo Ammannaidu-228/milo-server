@@ -11,12 +11,18 @@ export const generateToken = (userId, res) => {
     expiresIn: "7d",
   });
 
-  res.cookie("jwt", token, {
-    maxAge: 7 * 24 * 60 * 60 * 1000, // MS
-    httpOnly: true, // prevent XSS attacks: cross-site scripting
-    sameSite: ENV.NODE_ENV === "production" ? "none" : "lax", // Changed this
-    secure: ENV.NODE_ENV !== "development", // Also simplified this
-  });
+  const cookieOptions = {
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+    secure: ENV.NODE_ENV !== "development",
+  };
+
+  // ADD THIS LOGGING
+  console.log("Setting cookie with options:", cookieOptions);
+  console.log("NODE_ENV:", ENV.NODE_ENV);
+
+  res.cookie("jwt", token, cookieOptions);
 
   return token;
 };

@@ -4,6 +4,8 @@ import { ENV } from "../lib/env.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
+    console.log("All cookies:", req.cookies);
+    console.log("Raw cookie header:", req.headers.cookie);
     const token = req.cookies.jwt;
     if (!token) return res.status(401).json({ message: "Unauthorized - No token provided" });
 
